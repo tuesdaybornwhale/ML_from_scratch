@@ -1,7 +1,7 @@
 """
 Date: 30-08-2023
 Author: Ashe Vazquez
-Desc: Image classifier for handwritten digits
+Desc: Image classifier for handwritten digits.
 """
 
 import random
@@ -13,4 +13,3 @@ def sigmoid(z):
 
 def sigmoid_prime():
     """derivative of sigmoid"""
-    
