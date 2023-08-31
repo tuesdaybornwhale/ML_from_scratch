@@ -29,4 +29,7 @@ Class Network():
             x = sigmoid(np.dot(x, self.weights[i][j]) - self.biases[i]) 
         return x
     
-    def cost(self, x, y)
+    def cost(self, x, y):
+        """this is our cost of our network for one training input x, and one corresponding output y. we'll be using MSE in this code"""
+        return np.linalg.norm(x-y)**2/2
+    
