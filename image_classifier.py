@@ -15,6 +15,3 @@ def sigmoid_prime(z):
     """derivative of sigmoid"""
     f = sigmoid(z)
     return f*(1-f)
-
-def SGD_cycle(net, training_data, batch_size, epochs,)
-    """Stochastic gradient descent. """
