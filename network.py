@@ -4,6 +4,8 @@ Author: Ashe Vazquez
 Desc: Network class for image_classifier.py
 """
 
+import random
+import numpy as np
 #sizes specifies the sizes of each layer. len(sizes) is the amount of layers including the input and output layer.
 
 Class Network():
@@ -30,6 +32,9 @@ Class Network():
         return x
     
     def cost(self, x, y):
-        """this is our cost of our network for one training input x, and one corresponding output y. we'll be using MSE in this code"""
+        """this is our cost of our network for one training input x, and one corresponding output y. This code uses MSE cost, which is
+        likely not an optimal cost function for this problem."""
         return np.linalg.norm(x-y)**2/2
     
+    def backprop(self, x, y):
+        """calculating the gradient of our cost function using the backpropagation algorithm."""
