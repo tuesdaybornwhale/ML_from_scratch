@@ -24,7 +24,7 @@ class Network():
         self.weights = [np.random.randn(y,x) for y, x in zip(sizes[1:], sizes[:-1])]
 
     def feedforward(self, a):
-        """This method feeds a training example x, which is a vector of length sizes[0], through the entire network and outputs the
+        """This method feeds an input x, which is a vector of length sizes[0], through the entire network and outputs the
         activations in the final network."""
         for i in range(self.num_layers):
             # vectorized function returns a vector of activations for the next layer
@@ -32,13 +32,14 @@ class Network():
         return a
 
 
-    def SGD_cycle(net, training_data, batch_size, desired_epochs, learning_rate):
+    def SGD_cycle(self, training_data, batch_size, desired_epochs, learning_rate):
         """Stochastic gradient descent: the network updates itself from batches of training examples for the given amount of cycles (epochs)
         """
         finished_epochs = 0
         while finished_epochs < desired_epochs:
             # we pick a random sample of size batch_size from the training data and update the network from that batch.
             random.shuffle(training_data) 
+            # 
             self.update_from_batch(training_data[:batch_size], learning_rate)
 
             # next, we remove training data we've already used
@@ -59,11 +60,15 @@ class Network():
 
         # updating the networks weights and biases based on the partial derivatives (gradient descent). Not sure if this code actually adds
         # the partial derivatives to the weights and biases the way we want them to - still needs to be tested.S
-        self.weights -= nabla_w * learning_rate
-        self.biases -= nabla_b * learning_rate
+        self.weights -= nabla_w * learning_rate/n
+        self.biases -= nabla_b * learning_rate/n
 
     def cost_derivative(self, output_activations, correct_activations):
-        """returns a vector which stores the derivatives of the cost function with respect to a change in the outputs."""
+        """returns a vector which stores the derivatives of the cost function with respect to a change in the outputs. the derivative of the
+        MSE function with respect to any given input is just output-correct_output by the chain rule."""
+        # in theory we would also have to divide by n, the amount of training inputs we started with. In practice, however, we already
+        # accounted for that by dividing our nabla_w and nabla_b by n in the update_from_batch mathod, so we won't have to worry about it 
+        # again!
         return (output_activations-correct_activations)
 
     def backprop(self, x, y):
@@ -93,3 +98,14 @@ class Network():
             nabla_w[-i] = np.dot(activations[-i-1], error_vector)
             i +=1
         return nabla_b, nabla_w
+
+
+def sigmoid(z):
+    """sigmoid is our activation function. R->R"""
+    return 1/(1+np.exp(-z))
+
+
+def sigmoid_prime(z):
+    """derivative of sigmoid"""
+    f = sigmoid(z)
+    return f*(1-f)
