@@ -11,5 +11,7 @@ def sigmoid(z):
     """sigmoid is our activation function. R->R"""
     return 1/(1+np.exp(-z))
 
-def sigmoid_prime():
+def sigmoid_prime(z):
     """derivative of sigmoid"""
+    f = sigmoid(z)
+    return f*(1-f)
